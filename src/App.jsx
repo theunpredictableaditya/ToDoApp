@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 import './App.css'
 
 function App() {
 
   const [input, setinput] = useState("");
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(()=>{
+    let savedData = JSON.parse(localStorage.getItem("todo"));
+
+    return savedData ? savedData : [];
+  });
 
   const handleInput = (e) => {
     setinput(e.target.value);
@@ -13,19 +18,20 @@ function App() {
   const handleAddtask = (e) => {
     console.log(input)
     setTodos([...todos, {
-      "id":1,
+      "id":uuidv4(),
       "task": input,
       "isCompleted": false
     }])
+    setinput("");
   }
-  
-  useEffect(() => {
-    console.log(todos);
 
+  //use effect that runs whenever the todos is changed
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(todos));
   }, [todos])
   
   
-  
+
 
   return (
     <>
@@ -38,16 +44,19 @@ function App() {
           </div>
           <h2 className='px-5 text-2xl text-white font-bold'>Your Tasks</h2>
           <div className="infoContainer flex flex-col gap-3 w-[calc(100%-40px)]">
-            <div className="item flex items-center justify-around w-full mt-2">
+            {todos.map((todo)=>{
+
+            
+            return <div key={todo.id} className="item flex items-center justify-around w-full mt-2">
               <input className='w-1/4' type="checkbox" name="" id="" />
-              <p>Physics Complete Mechanics</p>
+              <p>{todo.task}</p>
               <div className="actions w-1/3 flex items-center justify-around">
                 <button className='px-4 py-2 rounded-full bg-yellow-400 text-white cursor-pointer'>Edit</button>
                 <button className='px-4 py-2 rounded-full bg-red-400 text-white cursor-pointer'>Delete</button>
               </div>
             </div>
+            })}
           </div>
-          <div>{todos.id}{todos.task}</div>
         </div>
       </div>
     </>

@@ -74,34 +74,36 @@ function App() {
   return (
     <>
       <div className="main flex items-center justify-center w-full h-screen bg-purple-200">
-        <div className="container w-1/2 bg-purple-300 h-[70vh] rounded-md">
-          <div className="inputContainer flex flex-col gap-3 items-center">
+        <div className="container w-[90vw] lg:w-1/2 bg-purple-300 h-[70vh] md:w-[70vw] sm:w-[80vw] rounded-md flex flex-col items-center shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+          <div className="inputContainer flex flex-col gap-3 items-center w-full">
             <h1 className='text-3xl font-bold text-white'>To-Do-App</h1>
             <input onChange={handleInput} value={input} className='w-[calc(100%-40px)] bg-purple-400 rounded-md px-4 py-3 outline-none' type="text" placeholder='Enter Your task' />
             <button onClick={handleAddtask} className='px-5 py-3 bg-blue-500 text-white font-bold rounded-full cursor-pointer'>Add Task</button>
           </div>
-          <h2 className='px-5 text-2xl text-white font-bold'>Your Tasks</h2>
-          <div className="infoContainer flex flex-col gap-3 w-[calc(100%-40px)]">
+          <h2 className='px-5 text-2xl text-white font-bold w-full text-left'>Your Tasks</h2>
+          <div className="infoContainer flex flex-col gap-1 w-[calc(100%-40px)] overflow-y-scroll h-96">
             {todos.map((todo)=>{
 
             
             return <div key={todo.id} className="item flex items-center justify-around w-full mt-2">
-              <input onChange={()=>{handleCheckBox(todo.id)}} className='w-1/4' type="checkbox" name="" id="" checked={todo.isCompleted} />
-              <p>{todo.task}</p>
-              <div className="actions w-1/3 flex items-center justify-around">
-                <button onClick={()=>{handleEdit(todo.id)}} className='px-4 py-2 rounded-full bg-yellow-400 text-white cursor-pointer'>Edit</button>
-                <button onClick={()=>{handleDelete(todo.id)}} className='px-4 py-2 rounded-full bg-red-400 text-white cursor-pointer'>Delete</button>
+              <input onChange={()=>{handleCheckBox(todo.id)}} className='w-[33%]' type="checkbox" name="" id="" checked={todo.isCompleted} />
+              <p className='w-[33%] text-center'>{todo.task}</p>
+              <div className="actions w-[33%] flex items-center justify-around">
+                <button onClick={()=>{handleEdit(todo.id)}} className='px-2 text-sm lg:px-4 py-2 rounded-full bg-yellow-400 text-white cursor-pointer sm:text-sm sm:px-3'>Edit</button>
+                <button onClick={()=>{handleDelete(todo.id)}} className='px-2 text-sm lg:px-4 py-2 rounded-full bg-red-400 text-white cursor-pointer sm:text-sm sm:px-3'>Delete</button>
               </div>
             </div>
             })}
           </div>
         </div>
       </div>
-      <div className={`editMode w-1/2 h-[70vh] bg-purple-300 rounded-md ${displayEdit} flex-col justify-around items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}>
+      <div className={`editMode h-[70vh] bg-purple-300 rounded-md ${displayEdit} flex-col gap-20 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-1/2 md:w-[70vw] sm:w-[80vw] w-[90vw] shadow-[0_0_20px_rgba(255,255,255,0.5)]`}>
+      <h1 className='text-3xl font-bold text-white mt-5'>To-Do-App</h1>
+      <h1 className='text-3xl font-bold text-white'>Edit - Task</h1>
       <input onChange={handleeditInput} value={editInput} className='w-[calc(100%-40px)] bg-purple-400 rounded-md px-4 py-3 outline-none' type="text" placeholder='Enter Your task' />
-      <div className="actions w-1/3 flex items-center justify-around">
-                <button onClick={()=>{saveEditChanges()}} className='px-4 py-2 rounded-full bg-yellow-400 text-white cursor-pointer'>Save Changes</button>
-                <button onClick={()=>{cancelEdit()}} className='px-4 py-2 rounded-full bg-red-400 text-white cursor-pointer'>Cancel Edit</button>
+      <div className="actions flex items-center justify-around gap-7">
+                <button onClick={()=>{saveEditChanges()}} className='lg:px-4 py-2 px-2 rounded-full bg-yellow-400 text-white cursor-pointer sm:text-sm sm:px-3'>Save Changes</button>
+                <button onClick={()=>{cancelEdit()}} className='lg:px-4 py-2 px-2 rounded-full bg-red-400 text-white cursor-pointer sm:text-sm sm:px-3'>Cancel Edit</button>
               </div>
       </div>
     </>

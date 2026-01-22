@@ -9,9 +9,12 @@ function App() {
   const [editInput, seteditInput] = useState("")
   const [input, setinput] = useState("");
   const [todos, setTodos] = useState(()=>{
-    let savedData = JSON.parse(localStorage.getItem("todo"));
-
-    return savedData ? savedData : [];
+    try{
+      let savedData = localStorage.getItem("todo");
+      return savedData ? JSON.parse(savedData) : [];
+    }catch{ 
+      return [];
+    }
   });
 
   const handleInput = (e) => {
@@ -22,6 +25,7 @@ function App() {
     seteditInput(e.target.value);
   }
 
+  //function that handles the add task button
   const handleAddtask = (e) => {
     console.log(input)
     setTodos([...todos, {
@@ -32,6 +36,7 @@ function App() {
     setinput("");
   }
 
+  //function that opens up the editing modal and setups the modal for editing
   const handleEdit = (id) => {
     setdisplayEdit("flex");
     let editableData = todos.filter(todos => todos.id === id);
@@ -39,18 +44,21 @@ function App() {
     setoldTask(editableData[0].id);
   }
 
+  //function that filters out the deletable todo and delete it
   const handleDelete = (id) => {
     setTodos((todos)=>{
       return todos.filter(todos => todos.id !== id)
     })
   }
   
+  //function that marks out whether the task is complete or incomplete
   const handleCheckBox = (id) => {
     setTodos((todos)=>{
       return todos.map(todo=> todo.id === id ? {...todo, isCompleted: !todo.isCompleted} : todo)
     })
   }
 
+  //function that saves the edit changes in any todo done by the user
   const saveEditChanges = () => {
     setTodos((todos)=>{
       return todos.map(todo => todo.id === oldTask ? {...todo, task: editInput} : todo)
@@ -59,6 +67,7 @@ function App() {
     setdisplayEdit("hidden");
   }
 
+  //function that hides out the editing modal
   const cancelEdit = () => {
     setdisplayEdit("hidden");
   }
